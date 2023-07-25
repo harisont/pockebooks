@@ -1,6 +1,6 @@
 # Pockebooks
 
-A simple Python script to build ebooks from a [Pocket](https://getpocket.com) list of articles yet to read.
+A simple Python script to build ebooks from a [Pocket](https://getpocket.com) list of unread articles.
 
 ## Is Pockebooks for you?
 No, it is for me. 
@@ -43,5 +43,5 @@ Beacuse Pocket sucks to extract metadata and [I care about basic ebook metadata 
 ### Why does Pockebooks not overwrite existing ebooks?
 Because my "to read" list tends to get very long and I want to be able to generate the ebooks little by little.
 
-### Will this be further developed into a remotely decent program?
+### Will this be further developed into a somewhat decent program?
 Probably not, honestly the plan is to abandon Pocket as soon as I read everything and replace it with something open source.
