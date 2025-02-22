@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+import csv
 from urllib.parse import urlparse
 import subprocess
 from os.path import exists
@@ -6,22 +6,19 @@ import sys
 
 if __name__ == "__main__":
     with open(sys.argv[1]) as infile:
-        html_str = infile.read()
-    soup = BeautifulSoup(html_str, 'html.parser')
-    links = soup.find_all('a')
-    articles = [link for link in links if link["tags"] == ""]
-    domains = list(set([urlparse(article["href"]).netloc for article in articles]))
-    misc = []
+        csv_reader = csv.DictReader(infile)
+        unarts = [(row["title"],row["url"]) for row in csv_reader if row["status"] == "unread" and not row["tags"]]
+    domains = list(set([urlparse(url).netloc for (_,url) in unarts]))
 
     for domain in sorted(domains):
-        domain_articles = list(reversed([article for article in articles if urlparse(article["href"]).netloc == domain]))
+        domain_unarts = [unart for unart in unarts if urlparse(unart[1]).netloc == domain]
         filename = domain + ".epub"
 
         if not exists(filename):
             print(domain)
             print()
-            for (n, article) in enumerate(domain_articles):
-                print(str(n + 1) + ".", article.contents[0])
+            for (n, (title,url)) in enumerate(domain_unarts):
+                print(str(n + 1) + ".", title, "({})".format(url))
 
             title = input("title: ")
             author = input("author: ")
@@ -29,10 +26,9 @@ if __name__ == "__main__":
             excludes = [int(n) for n in exclude_string.split(" ")] if exclude_string != "" else []
 
             selection = []
-            for (i,article) in enumerate(domain_articles):
+            for (i,unart) in enumerate(domain_unarts):
                 if i + 1 not in excludes:
-                    selection.append(article)
-
+                    selection.append(unart)
 
             if title != "" or author != "":
-                subprocess.run(["percollate", "epub"] + [article["href"] for article in selection] + ["-o", filename, "-t", title, "-a", author]) 
+                subprocess.run(["percollate", "epub"] + [url for (_,url) in selection] + ["-o", filename, "-t", title, "-a", author]) 
