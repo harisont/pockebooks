@@ -17,9 +17,9 @@ python pockebooks.py EXPORTED_SAVES.html
 ```
 
 ## What does Pockebooks do exactly? 
-Pockebooks is a simple Python script to build ebooks (in `.epub` format) from __[the html export](https://getpocket.com/export)__ of your [Pocket](https://getpocket.com) saves.
+Pockebooks is a simple Python script to build ebooks (in `.epub` format) from __[the CSV export](https://getpocket.com/export)__ of your [Pocket](https://getpocket.com) saves.
 
-It selects __untagged unread articles__ and groups them by __web domain__ in __chronological order__ (based on save date). 
+It selects __untagged unread articles__ and groups them by __web domain__. 
 For each domain, it allows to interactively create an ebook with [percollate](https://github.com/danburzo/percollate). 
 To create an ebook, the user __*must* choose a title *and* an author__ (if either is left empty, the ebook is not created) and __*can* select a set of articles to ignore__. 
 
